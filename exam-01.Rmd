@@ -42,11 +42,20 @@ From the table it is visible that Kobe Bryant has the highest salary of all the 
 
 ### Question 2
 
-Now we will create a boxplot .....
+Now we will create a boxplot that compares the distribution of the players' salaries by position. 
+
 ```{r}
-nba 
+ggplot(data = nba) +
+  geom_boxplot(mapping = aes(x = position, y = salary)) + 
+  labs(title = "NBA Salaries 2015-2016
+       by Position", 
+       x = "",
+       y = "$ Millions per year") +
+  scale_x_discrete(labels = c("Center", "Power Forward", "Point Guard", "Small Forward", "Shooting Guard"))
+
 ```
 
+From this graph, we are able to see that the highest median salary is earned by players with the center position, while the lowest median comes from the shooting guard players. The ones who play center, however, also have a more even spread of their salaries, seeing as their interquartile range, or the middle 50%, is the largest of all the positions. There are also very little outliers in the center players' salaries, and there are several high outliers in all four of the other positions, so that is not to say that players playing a position other than center cannot earn a lot. 
 
 ### Question 3
 
