@@ -1,38 +1,52 @@
 ---
 title: "DATA 101 Exam 1"
-author: "[ENTER NAME HERE]"
+author: "Kamila Palys"
 date: "Due: Monday 10/26 at 11:59pm"
 output: pdf_document
 ---
 
 ```{r setup, include = FALSE}
 # set the echo option to FALSE to see how the document looks with the code suppressed
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Academic Honesty Statement (fill in your name)
 
-I, ____________, hereby affirm that I have not communicated with or gained information in any way from my classmates or anyone other than the Professor during this exam, that I have not assisted anyone else with this exam, and that all work is my own.
+I, Kamila Palys, hereby affirm that I have not communicated with or gained information in any way from my classmates or anyone other than the Professor during this exam, that I have not assisted anyone else with this exam, and that all work is my own.
 
 ## Load packages and data
 
 ```{r load-packages, message=FALSE}
 # load required packages here
+library(tidyverse)
 ```
 
 ```{r read-data, message=FALSE}
 # read in the data here
+nba <- read_csv("data/nba_salaries.csv") 
 ```
 
 ## Questions 
 
 ### Question 1
 
-[Enter code and narrative here.]
+First, we will make a table to view the salaries of the NBA players in descending order by using the "select" and "arrange" functions to display the variables we want, in the order we want.
+
+```{r}
+nba %>%
+  select(player, salary) %>%
+  arrange(desc(salary)) 
+```
+
+From the table it is visible that Kobe Bryant has the highest salary of all the NBA players at $25 million. 
 
 ### Question 2
 
-[Enter code and narrative here.]
+Now we will create a boxplot .....
+```{r}
+nba 
+```
+
 
 ### Question 3
 
