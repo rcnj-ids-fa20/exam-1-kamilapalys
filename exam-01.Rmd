@@ -119,7 +119,18 @@ nba %>%
 
 ### Question 7
 
-[Enter code and narrative here.]
+The following table will show the highest salary earned for each position in each team. 
+
+```{r}
+starters <- nba %>%
+  group_by(team, position) %>%
+  summarise(highest_salary = (max(salary)))
+
+print(starters)
+
+```
+
+I started this problem by creating a new datafram with the new name and piping the nba dataset into the following functions. At first I started to use the select() function knowing that we would only display certain variables, but I later realized it was unnecessary. Since we are applying the maximum function in summarise to each position in each time, I grouped by the team and position. This gave me the new column that we needed, which I called highest_salary. I had to use the print() function so that the table would actually display. 
 
 ### Question 8
 
