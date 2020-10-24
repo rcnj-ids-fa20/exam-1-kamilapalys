@@ -107,7 +107,15 @@ As seen, the three top earning teams are the Cleveland Caveliers earning $10.2 m
 
 ### Question 6
 
-[Enter code and narrative here.]
+```{r}
+nba %>%
+  mutate(salary_level = case_when(
+    salary < 8 ~ "Low",
+    salary >= 8 & salary <16 ~ "Moderate",
+    salary >= 16 ~ "High"
+  ))
+```
+
 
 ### Question 7
 
