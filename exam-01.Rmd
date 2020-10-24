@@ -79,7 +79,17 @@ With this table and bar graph, it is visible that there are the most players in 
 
 ### Question 4
 
-[Enter code and narrative here.]
+Here a display is created in the form of a histogram to show the distribution of the salaries of the NBA players.
+
+```{r}
+ggplot(data = nba) +
+  geom_histogram(mapping = aes(x = salary), binwidth = 2) +
+  labs(title = "Player Salary Distributions",
+       x = "Salary",
+       y = "Frequency")
+```
+
+It is clear from this graph that a large number of players earned a salary between about $1 million to $3 million. It appears as though a large amount of players received a salary of up to $10 million, but a minority of them receive more than that and very few reach $20 million or more. 
 
 ### Question 5
 
