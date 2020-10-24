@@ -75,7 +75,7 @@ ggplot(data = nba, mapping = aes(x = fct_infreq(position))) +
     
 ```
 
-With this table and bar graph, it is visible that there are the most players in shooting guard at 96, while the center position has only 69, which is the least amount of players playing a certain position. 
+With this table and bar graph, it is visible that there are the most players in shooting guard at 96, while the center position has only 69, which is the least amount of players playing a certain position. Additionally, there are 82 playing small forward, 85 playing point guard, and 85 playing power forward. 
 
 ### Question 4
 
@@ -93,7 +93,17 @@ It is clear from this graph that a large number of players earned a salary betwe
 
 ### Question 5
 
-[Enter code and narrative here.]
+Here, the average salaries per player in each team will be displayed. 
+
+```{r}
+nba %>%
+  group_by(team) %>%
+  summarise(avg_salary = mean(salary)) %>%
+  arrange(desc(avg_salary)) %>%
+  top_n(10)
+```
+
+As seen, the three top earning teams are the Cleveland Caveliers earning $10.2 million on average, Houston Rockets earning $7.11 million on average, and Miami heat with $6.79 million on average. The second and third highest earning teams do not have an extreme difference in average salaries per player, but the Cleveland Caveliers have a high jump, with each player earning almost $3 million more on average than the second highest earning team. It is possible that this may be due to the Cleveland Caveliers having more famous basketball players that earn a salary that is considered to be an outlier. 
 
 ### Question 6
 
