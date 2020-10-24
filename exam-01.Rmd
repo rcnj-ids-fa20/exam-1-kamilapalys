@@ -55,11 +55,27 @@ ggplot(data = nba) +
 
 ```
 
-From this graph, we are able to see that the highest median salary is earned by players with the center position, while the lowest median comes from the shooting guard players. The ones who play center, however, also have a more even spread of their salaries, seeing as their interquartile range, or the middle 50%, is the largest of all the positions. There are also very little outliers in the center players' salaries, and there are several high outliers in all four of the other positions, so that is not to say that players playing a position other than center cannot earn a lot. 
+From this graph, we are able to see that the highest median salary is earned by players with the center position, while the lowest median comes from the shooting guard players. The ones who play center, however, also have a more even spread of their salaries, seeing as their interquartile range, or the middle 50%, is the largest of all the positions. There are also very little outliers in the center players' salaries, and there are several high outliers in all four of the other positions, so that is not to say that players playing a position other than center cannot earn a high salary. 
 
 ### Question 3
 
-[Enter code and narrative here.]
+Now we will take a look at how many players there are in each position with "group_by" and the "count" function.
+
+```{r}
+nba %>%
+  group_by(position) %>%
+  count(position) %>%
+  arrange(desc(position))
+
+ggplot(data = nba, mapping = aes(x = fct_infreq(position))) +
+  geom_bar() +
+  labs(title = "Number of Players in each Position",
+       x = "Position",
+       y = "Count")
+    
+```
+
+With this table and bar graph, it is visible that there are the most players in shooting guard at 96, while the center position has only 69, which is the least amount of players playing a certain position. 
 
 ### Question 4
 
