@@ -146,7 +146,15 @@ I approached this problem by thinking that I wanted to keep all data from the st
 
 ### Question 9
 
-[Enter code and narrative here.]
+If we wanted to see in which instances there are multiple highest paid players within a position in a team, we can first group by the team and the position, since it is within those combinations that we are looking for multiple values. Then, we can simply count how many values of highest_salary there are within a position in every team. 
+
+```{r}
+starters %>%
+  group_by(team.x, position.x) %>%
+  count(highest_salary)
+```
+
+From the table produced, we can see that for example, the center position in Atlanta Hawks has three players that all have the same highest salary. There are multiple occasions where more than one player playing a certain position in a team earns the highest salary simultaneously, however, there are also many instances where there is only one player that has the highest salary. 
 
 ### Question 10
 
