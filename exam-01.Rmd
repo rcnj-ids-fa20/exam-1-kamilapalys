@@ -134,7 +134,15 @@ I started this problem by creating a new datafram with the new name and piping t
 
 ### Question 8
 
-[Enter code and narrative here.]
+Now, the names will be shown for each player that corresponds to the highest earning salary for each position in each team.
+
+```{r}
+starters <- left_join(starters, nba, by = c("highest_salary" = "salary"))
+
+print(starters)
+```
+
+I approached this problem by thinking that I wanted to keep all data from the starters dataframe, and only add the players' names that corresponded to the highest salary. Therefore, I used a left_join to only add correspondin information from the nba data. I received many errors about the variable that I wanted to join by not existing, until I realized I needed to note that the "highest_salary" in the starters dataframe contains the same information as the "salary" in the nba dataframe. 
 
 ### Question 9
 
