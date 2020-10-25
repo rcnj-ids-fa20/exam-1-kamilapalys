@@ -137,7 +137,10 @@ I started this problem by creating a new datafram with the new name and piping t
 Now, the names will be shown for each player that corresponds to the highest earning salary for each position in each team.
 
 ```{r}
-starters <- left_join(starters, nba, by = c("highest_salary" = "salary"))
+starters <- left_join(starters, nba, by = c("highest_salary" = "salary")) 
+
+starters$position.y <- NULL
+starters$team.y <- NULL 
 
 print(starters)
 ```
