@@ -7,7 +7,7 @@ output: pdf_document
 
 ```{r setup, include = FALSE}
 # set the echo option to FALSE to see how the document looks with the code suppressed
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Academic Honesty Statement (fill in your name)
@@ -107,15 +107,21 @@ As seen, the three top earning teams are the Cleveland Caveliers earning $10.2 m
 
 ### Question 6
 
+Here we will create a new variable called "salary_level" with three different levels regarding the salary a player makes: Low, Moderate, and High. Then, in a column called "proportion", the proportion of players that fall within each salary level will be shown. 
+
 ```{r}
 nba %>%
   mutate(salary_level = case_when(
     salary < 8 ~ "Low",
     salary >= 8 & salary <16 ~ "Moderate",
     salary >= 16 ~ "High"
-  ))
+  )) %>%
+  count(salary_level) %>%
+  mutate(proportion = n/sum(n)) %>%
+  arrange(match(salary_level, "Low", "Moderate", "High"))
 ```
 
+As seen in the table above, there are 326 players that earn what we classify as a "low" salary, which is 0.782 of all players. Clearly, the majority of players (over 75%) earn what we call a "low" salary. There are 69 players that earn a "moderate" salary, making for 0.165 of all players, and only 22 players earn a "high" salary, which is 0.0528 of all players.
 
 ### Question 7
 
@@ -161,6 +167,13 @@ From the table produced, we can see that for example, the center position in Atl
 
 ### Question 10
 
-[Enter code and narrative here.]
+```{r}
+starters_unique <- starters #[-c(Ian Mahinmi)]
+  
+  #pivot_wider(names_from = position.x, values_from = player) 
+
+#values_fn = list
+```
+
 
 
