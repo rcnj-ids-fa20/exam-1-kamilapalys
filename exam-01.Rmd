@@ -143,15 +143,12 @@ I started this problem by creating a new datafram with the new name and piping t
 Now, the names will be shown for each player that corresponds to the highest earning salary for each position in each team.
 
 ```{r}
-starters <- left_join(starters, nba, by = c("highest_salary" = "salary")) 
-
-starters$position.y <- NULL
-starters$team.y <- NULL 
+starters <- left_join(starters, nba, by = c("highest_salary" = "salary", "position", "team")) 
 
 print(starters)
 ```
 
-I approached this problem by thinking that I wanted to keep all data from the starters dataframe, and only add the players' names that corresponded to the highest salary. Therefore, I used a left_join to only add correspondin information from the nba data. I received many errors about the variable that I wanted to join by not existing, until I realized I needed to note that the "highest_salary" in the starters dataframe contains the same information as the "salary" in the nba dataframe. 
+I approached this problem by thinking that I wanted to keep all the rows from the starters dataframe, and only add the players' names that corresponded to the highest salary. Therefore, I used a left_join. I initially received many errors about the variable that I wanted to join by not existing, until I realized I needed to note that the "highest_salary" in the starters dataframe contains the same information as the "salary" in the nba dataframe. In addition, to have the players' names correspond to the correct team and position that they are a part of, I also had to join by the "position" and "team". 
 
 ### Question 9
 
@@ -159,7 +156,6 @@ If we wanted to see in which instances there are multiple highest paid players w
 
 ```{r}
 starters %>%
-  group_by(team.x, position.x) %>%
   count(highest_salary)
 ```
 
