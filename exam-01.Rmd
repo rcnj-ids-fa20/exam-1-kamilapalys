@@ -148,7 +148,7 @@ starters <- left_join(starters, nba, by = c("highest_salary" = "salary", "positi
 print(starters)
 ```
 
-I approached this problem by thinking that I wanted to keep all the rows from the starters dataframe, and only add the players' names that corresponded to the highest salary. Therefore, I used a left_join. I initially received many errors about the variable that I wanted to join by not existing, until I realized I needed to note that the "highest_salary" in the starters dataframe contains the same information as the "salary" in the nba dataframe. In addition, to have the players' names correspond to the correct team and position that they are a part of, I also had to join by the "position" and "team". 
+I approached this problem by recognizing that I wanted to keep all the rows from the starters dataframe, and only add the players' names that corresponded to the highest salary. Therefore, I used a left_join. I initially received many errors about the variable that I wanted to join by not existing, until I realized I needed to note that the "highest_salary" in the starters dataframe contains the same information as the "salary" in the nba dataframe. In addition, to have the players' names correspond to the correct team and position that they are a part of, I also had to join by the "position" and "team". 
 
 ### Question 9
 
@@ -156,10 +156,17 @@ If we wanted to see in which instances there are multiple highest paid players w
 
 ```{r}
 starters %>%
-  count(highest_salary)
+  group_by(team, position) %>%
+  count(highest_salary) %>%
+  print(n = Inf)
+
+starters %>%
+  group_by(team, position) %>%
+  count(highest_salary) %>%
+  filter(n > 1) 
 ```
 
-From the table produced, we can see that for example, the center position in Atlanta Hawks has three players that all have the same highest salary. There are multiple occasions where more than one player playing a certain position in a team earns the highest salary simultaneously, however, there are also many instances where there is only one player that has the highest salary. 
+From displaying all 147 rows present in the table, we can quickly scan the "n" column and identify that there is only one observation where two players within a team earn the same highest salary in a given position. That is in the case of the Indiana Pacers in the center position, where there are two players that both earn the highest salary of $4 million for that position. This can be confirmed by just looking at the raw data, where indeed both Ian Mahinmi and Jordan Hill earn $4 million playing the center position for the Indiana Pacers, which is the highest salary for that team and position. Alternatively, we can filter to only show results where there are more than one highest_salary per position per team, if we do not want to look through all 147 rows. Therefore, the second table is much smaller and only shows the one observation with the Indiana Pacers C position. 
 
 ### Question 10
 
