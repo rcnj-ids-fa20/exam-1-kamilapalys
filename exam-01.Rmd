@@ -1,8 +1,10 @@
 ---
 title: "DATA 101 Exam 1"
 author: "Kamila Palys"
-date: "Due: Monday 10/26 at 11:59pm"
-output: pdf_document
+date: 'Due: Monday 10/26 at 11:59pm'
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include = FALSE}
@@ -38,7 +40,7 @@ nba %>%
   arrange(desc(salary)) 
 ```
 
-From the table it is visible that Kobe Bryant has the highest salary of all the NBA players at $25 million. 
+From the table it is visible that Kobe Bryant has the highest salary of all the NBA players at $25 million, followed by Joe Johnson and then Lebron James. 
 
 ### Question 2
 
@@ -51,11 +53,12 @@ ggplot(data = nba) +
        by Position", 
        x = "",
        y = "$ Millions per year") +
-  scale_x_discrete(labels = c("Center", "Power Forward", "Point Guard", "Small Forward", "Shooting Guard"))
+  scale_x_discrete(labels = c("Center", "Power Forward", "Point Guard", 
+                              "Small Forward", "Shooting Guard"))
 
 ```
 
-From this graph, we are able to see that the highest median salary is earned by players with the center position, while the lowest median comes from the shooting guard players. The ones who play center, however, also have a more even spread of their salaries, seeing as their interquartile range, or the middle 50%, is the largest of all the positions. There are also very little outliers in the center players' salaries, and there are several high outliers in all four of the other positions, so that is not to say that players playing a position other than center cannot earn a high salary. 
+To learn about the scale_x_discrete function, [I visited this website(https://ggplot2.tidyverse.org/reference/scale_discrete.html)]. From this graph, we are able to see that the highest median salary is earned by players with the center position, while the lowest median comes from the shooting guard players. The ones who play center, however, also have a more even spread of their salaries, seeing as their interquartile range, or the middle 50%, is the largest of all the positions. There are also very little outliers in the center players' salaries, and there are several high outliers in all four of the other positions, so that is not to say that players playing a position other than center cannot earn a high salary. 
 
 ### Question 3
 
@@ -65,7 +68,7 @@ Now we will take a look at how many players there are in each position with "gro
 nba %>%
   group_by(position) %>%
   count(position) %>%
-  arrange(desc(position))
+  arrange(desc(n))
 
 ggplot(data = nba, mapping = aes(x = fct_infreq(position))) +
   geom_bar() +
@@ -75,7 +78,7 @@ ggplot(data = nba, mapping = aes(x = fct_infreq(position))) +
     
 ```
 
-With this table and bar graph, it is visible that there are the most players in shooting guard at 96, while the center position has only 69, which is the least amount of players playing a certain position. Additionally, there are 82 playing small forward, 85 playing point guard, and 85 playing power forward. 
+With this table and bar graph, it is visible that there are the most players in shooting guard at 96, while the center position has only 69, which is the least amount of players playing a certain position. Additionally, there are 85 playing point guard, 85 playing power forward, and 82 playing small forward. 
 
 ### Question 4
 
@@ -103,7 +106,7 @@ nba %>%
   top_n(10)
 ```
 
-As seen, the three top earning teams are the Cleveland Caveliers earning $10.2 million on average, Houston Rockets earning $7.11 million on average, and Miami heat with $6.79 million on average. The second and third highest earning teams do not have an extreme difference in average salaries per player, but the Cleveland Caveliers have a high jump, with each player earning almost $3 million more on average than the second highest earning team. It is possible that this may be due to the Cleveland Caveliers having more famous basketball players that earn a salary that is considered to be an outlier. 
+As seen, the three highest paying teams are the Cleveland Caveliers earning $10.23 million on average, Houston Rockets earning $7.11 million on average, and Miami heat with $6.79 million on average. The second and third highest earning teams do not have an extreme difference in average salaries per player, but the Cleveland Caveliers have a high jump, with each player earning almost $3 million more on average than the second highest earning team. It is possible that this may be due to the Cleveland Caveliers having more famous basketball players that earn a salary that is considered to be an outlier. 
 
 ### Question 6
 
@@ -121,7 +124,7 @@ nba %>%
   arrange(match(salary_level, "Low", "Moderate", "High"))
 ```
 
-As seen in the table above, there are 326 players that earn what we classify as a "low" salary, which is 0.782 of all players. Clearly, the majority of players (over 75%) earn what we call a "low" salary. There are 69 players that earn a "moderate" salary, making for 0.165 of all players, and only 22 players earn a "high" salary, which is 0.0528 of all players.
+As seen in the table above, there are 326 players that earn what we classify as a "low" salary, which is 0.782 of all players. Clearly, the majority of players (over 75%) earn what we call a "low" salary. There are 69 players that earn a "moderate" salary, making for 0.165 of all players, and only 22 players earn a "high" salary, which is 0.0528 of all players. To figure out how to rearrange the rows in my desired manner, [I visited this website: (https://stackoverflow.com/questions/26548495/reorder-rows-using-custom-order)]
 
 ### Question 7
 
@@ -130,35 +133,33 @@ The following table will show the highest salary earned for each position in eac
 ```{r}
 starters <- nba %>%
   group_by(team, position) %>%
-  summarise(highest_salary = (max(salary)))
-
-print(starters)
+  summarise(highest_salary = (max(salary))) %>%
+  print()
 
 ```
 
-I started this problem by creating a new datafram with the new name and piping the nba dataset into the following functions. At first I started to use the select() function knowing that we would only display certain variables, but I later realized it was unnecessary. Since we are applying the maximum function in summarise to each position in each time, I grouped by the team and position. This gave me the new column that we needed, which I called highest_salary. I had to use the print() function so that the table would actually display. 
+I started this problem by creating a new dataframe with the new name and piping the nba dataset into the following functions. At first I started to use the select() function knowing that we would only display certain variables, but I later realized it was unnecessary. Since we are applying the maximum function in summarise to each position in each time, I grouped by the team and position. This gave me the new column that we needed, which I called highest_salary. I had to use the print() function so that the table would actually display. 
 
 ### Question 8
 
 Now, the names will be shown for each player that corresponds to the highest earning salary for each position in each team.
 
 ```{r}
-starters <- left_join(starters, nba, by = c("highest_salary" = "salary", "position", "team")) 
-
-print(starters)
+starters <- left_join(starters, nba, 
+            by = c("highest_salary" = "salary", "position", "team")) %>%
+            print()
 ```
 
-I approached this problem by recognizing that I wanted to keep all the rows from the starters dataframe, and only add the players' names that corresponded to the highest salary. Therefore, I used a left_join. I initially received many errors about the variable that I wanted to join by not existing, until I realized I needed to note that the "highest_salary" in the starters dataframe contains the same information as the "salary" in the nba dataframe. In addition, to have the players' names correspond to the correct team and position that they are a part of, I also had to join by the "position" and "team". 
+I approached this problem by recognizing that I wanted to keep all the rows from the starters dataframe, and only add the players' names that corresponded to the highest salary. Therefore, I used a left_join. I initially received many errors about the variable that I wanted to join by not existing, until I realized that I needed to note that the "highest_salary" in the starters dataframe contains the same information as the "salary" in the nba dataframe. In addition, to have the players' names correspond to the correct team and position that they are a part of, I also had to join by the "position" and "team". 
 
 ### Question 9
 
-If we wanted to see in which instances there are multiple highest paid players within a position in a team, we can first group by the team and the position, since it is within those combinations that we are looking for multiple values. Then, we can simply count how many values of highest_salary there are within a position in every team. 
+If we wanted to see in which instances there are multiple highest paid players within a position in a team, we can first group by the team and the position, since it is within those combinations that we are looking for multiple values. Then, we can simply count how many values of highest_salary there are within a position in every team and display all 147 rows present in the table. We can quickly scan the "n" column and identify any observations where there is a 2, meaning that there are two players within a team earn the same highest salary in a given position. Alternatively, we can filter to only show results where there are more than one highest_salary per position per team, if we do not want to look through all 147 rows.
 
 ```{r}
 starters %>%
   group_by(team, position) %>%
-  count(highest_salary) %>%
-  print(n = Inf)
+  count(highest_salary) 
 
 starters %>%
   group_by(team, position) %>%
@@ -166,17 +167,21 @@ starters %>%
   filter(n > 1) 
 ```
 
-From displaying all 147 rows present in the table, we can quickly scan the "n" column and identify that there is only one observation where two players within a team earn the same highest salary in a given position. That is in the case of the Indiana Pacers in the center position, where there are two players that both earn the highest salary of $4 million for that position. This can be confirmed by just looking at the raw data, where indeed both Ian Mahinmi and Jordan Hill earn $4 million playing the center position for the Indiana Pacers, which is the highest salary for that team and position. Alternatively, we can filter to only show results where there are more than one highest_salary per position per team, if we do not want to look through all 147 rows. Therefore, the second table is much smaller and only shows the one observation with the Indiana Pacers C position. 
+In the first ten rows we see that there are only 1's in the n column. If we were to scan all 147 rows, we would see that there is one case of the Indiana Pacers in the center position, where there are two players that both earn the highest salary of $4 million for that position. This can be confirmed by just looking at the raw data, where indeed both Ian Mahinmi and Jordan Hill earn $4 million playing the center position for the Indiana Pacers, which is the highest salary for that team and position. For our purposes, we will instead utilize the shorter and easier table to read, which only shows the one observation with the Indiana Pacers C position. 
 
 ### Question 10
 
-```{r}
-starters_unique <- starters #[-c(Ian Mahinmi)]
-  
-  #pivot_wider(names_from = position.x, values_from = player) 
+A new dataframe called starters_unique will now be created, which has Ian Mahinmi's row removed so that there are no ties between the highest salaries within a position in a team. The resulting table will show the player with the highest salary for each position in each team in a format that is easy to read. 
 
-#values_fn = list
+```{r}
+starters_unique = starters[starters$player != "Ian Mahinmi", ] 
+
+starters_unique$highest_salary <- NULL
+
+starters_unique %>%
+  pivot_wider(names_from = position, values_from = player) %>%
+  knitr::kable()
 ```
 
-
+To remove Ian Mahinmi's row from the starters dataframe, I used [code that I found on (https://statisticsglobe.com/r-remove-row-from-data-frame-condition)]. Then, I removed the column displaying the salary information using the [code that I found on (https://www.programmingr.com/examples/r-dataframe/add-delete-columns/)]. I then proceeded to pivot the starters_unique dataframe to be wider, knowing that the names of the new columns would be each of the positions, and the values underneath the corresponding columns would be the players' names. 
 
